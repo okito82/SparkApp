@@ -43,10 +43,11 @@ object Banque {
     client.select("nom","email").show()
     */
 
-    /* Date d'attribution sans doublon*/
+    /* Date d'attribution sans doublon5555555555*/
     val datetriSansDoublon = sqlContext.sql("SELECT DISTINCT date_attribution FROM portefeuille")
     datetriSansDoublon.show()
     portefeuille.select("date_attribution").distinct().show()
+
 
 
     /* Longueur du email des clients (fonction chaine)

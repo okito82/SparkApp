@@ -1,4 +1,5 @@
 package SparkDemo
+
 import org.apache.spark.SparkConf
 import org.apache.spark.SparkContext
 
@@ -43,11 +44,11 @@ object Banque {
     client.select("nom","email").show()
     */
 
-    /* Date d'attribution sans doublon5555555555*/
+    /* Date d'attribution sans doublon5555555555
     val datetriSansDoublon = sqlContext.sql("SELECT DISTINCT date_attribution FROM portefeuille")
     datetriSansDoublon.show()
     portefeuille.select("date_attribution").distinct().show()
-
+    */
 
 
     /* Longueur du email des clients (fonction chaine)
@@ -68,4 +69,6 @@ object Banque {
     /* Comptes avec n°, nom du client et solde */
 
   }
+  println(defPerson.funPersonne(9).age)
+
 }

@@ -21,22 +21,28 @@ object Banque {
         .option("inferSchema", "true")
         .load(dataPath1)
 
+
       def Compte(dataPath1: String) = sqlContext.read.format("com.databricks.spark.csv")
         .option("header","true")
         .option("inferSchema", "true")
         .load(dataPath1)
+
 
       def Portefeuille(dataPath1: String) = sqlContext.read.format("com.databricks.spark.csv")
         .option("header","true")
         .option("inferSchema", "true")
         .load(dataPath1)
 
-    Client("Data/Entrer/jour1/client.csv").registerTempTable("client")
-    val client = Client("Data/Entrer/jour1/client.csv")
+
+    Client("file:///home/cloudera/IdeaProjects/SparkApp/Data/Entrer/jour1/client.csv").registerTempTable("client")
+    val client = Client("file:///home/cloudera/IdeaProjects/SparkApp/Data/Entrer/jour1/client.csv")
     Commercial("Data/Entrer/jour1/commercial.csv").registerTempTable("commercial")
+    val commercial = Commercial("Data/Entrer/jour1/commercial.csv")
     Compte("Data/Entrer/jour1/compte.csv").registerTempTable("compte")
+    val compte = Compte("Data/Entrer/jour1/compte.csv")
     Portefeuille("Data/Entrer/jour1/portefeuille.csv").registerTempTable("portefeuille")
     val portefeuille = Portefeuille("Data/Entrer/jour1/portefeuille.csv")
+
 
     //Nom et mail de tous les clients
     /*val clientNomMail = sqlContext.sql("SELECT nom, email FROM client")
@@ -53,8 +59,9 @@ object Banque {
 
     /* Longueur du email des clients (fonction chaine)
     val longEmail = sqlContext.sql("SELECT email, length(email) FROM client")
-    longEmail.show()
+    longEmail.write.format("json").save("file:///home/cloudera/Documents/longEmail")
     */
+
 
     /* Nom des clients suivi de => email
     val clientEtEmail = sqlContext.sql("SELECT concat_ws(' => ', nom, email) AS client FROM client")
@@ -68,7 +75,13 @@ object Banque {
     ----------------------------------------------------------------- */
     /* Comptes avec n°, nom du client et solde */
 
+    val CompteNum_NomClient_Solde =sqlContext.sql("SELECT no_compte, nom AS nom_client, solde " +
+      "FROM compte INNER JOIN client " +
+      "ON compte.no_client = client.no_client")
+    //CompteNum_NomClient_Solde.show()
+    compte.join(client,"no_client").select("nom","no_compte").show()
+
   }
-  println(defPerson.funPersonne(9).age)
+
 
 }
